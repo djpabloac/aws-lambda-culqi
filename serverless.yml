@@ -18,8 +18,10 @@ provider:
     REDIS_PASSWORD: ${env:REDIS_PASSWORD}
 
 functions:
-  auth:
-    handler: src/middleware/auth.handler
+  authGet:
+    handler: src/middleware/auth-get.handler
+  authPost:
+    handler: src/middleware/auth-post.handler
   createToken:
     handler: src/functions/tokens/create-token.handler
     events:
@@ -27,7 +29,7 @@ functions:
           method: POST
           path: /tokens
           authorizer:
-            name: auth
+            name: authGet
   finderToken:
     handler: src/functions/tokens/finder-token.handler
     events:
@@ -35,7 +37,7 @@ functions:
           method: GET
           path: /tokens/{token}
           authorizer:
-            name: auth
+            name: authPost
 
 package:
   exclude:
