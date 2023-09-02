@@ -1,0 +1,58 @@
+service: aws-lambda-culqi
+frameworkVersion: "3"
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  environment:
+    TOKEN_BEARER: ${env:TOKEN_BEARER}
+    POSTGRES_HOST: ${env:POSTGRES_HOST}
+    POSTGRES_PORT: ${env:POSTGRES_PORT}
+    POSTGRES_USERNAME: ${env:POSTGRES_USERNAME}
+    POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD}
+    POSTGRES_DATABASE: ${env:POSTGRES_DATABASE}
+    REDIS_HOST: ${env:REDIS_HOST}
+    REDIS_PORT: ${env:REDIS_PORT}
+    REDIS_PASSWORD: ${env:REDIS_PASSWORD}
+
+functions:
+  auth:
+    handler: src/middleware/auth.handler
+  createToken:
+    handler: src/functions/tokens/create-token.handler
+    events:
+      - http:
+          method: POST
+          path: /tokens
+          authorizer:
+            name: auth
+  finderToken:
+    handler: src/functions/tokens/finder-token.handler
+    events:
+      - http:
+          method: GET
+          path: /tokens/{token}
+          authorizer:
+            name: auth
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - __test__/**
+    - package.json
+    - package-lock.json
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 9000
+    ignoreJWTSignature: true
+  esbuild:
+    bundle: true
+    minify: true
