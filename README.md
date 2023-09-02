@@ -48,6 +48,14 @@ Run the command:
 npm run test
 ```
 
+## Deploy
+
+Before deploying the project you must ensure that you have [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed and configured in your local environment. Run the command:
+
+```bash
+npm run deploy
+```
+
 ## Authors
 
 - [@dj.pablo.ac](https://gitlab.com/dj.pablo.ac)
