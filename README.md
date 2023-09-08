@@ -33,9 +33,6 @@ npm i
 
 # 2. Development (Default port: 9000)
 npm run dev
-
-# 3. Deploy
-npm run deploy
 ```
 
 Open [http://localhost:9000](http://localhost:9000) with your browser to see the result.
