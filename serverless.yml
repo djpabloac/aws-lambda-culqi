@@ -18,10 +18,8 @@ provider:
     REDIS_PASSWORD: ${env:REDIS_PASSWORD}
 
 functions:
-  authGet:
-    handler: src/middleware/auth-get.handler
-  authPost:
-    handler: src/middleware/auth-post.handler
+  auth:
+    handler: src/middleware/auth.handler
   createToken:
     handler: src/functions/tokens/create-token.handler
     events:
@@ -29,7 +27,10 @@ functions:
           method: POST
           path: /tokens
           authorizer:
-            name: authGet
+            name: auth
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
   finderToken:
     handler: src/functions/tokens/finder-token.handler
     events:
@@ -37,7 +38,10 @@ functions:
           method: GET
           path: /tokens/{token}
           authorizer:
-            name: authPost
+            name: auth
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
 
 package:
   exclude:
@@ -54,7 +58,6 @@ plugins:
 custom:
   serverless-offline:
     httpPort: 9000
-    ignoreJWTSignature: true
   esbuild:
     bundle: true
     minify: true
