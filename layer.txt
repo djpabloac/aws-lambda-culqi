@@ -1,0 +1,15 @@
+Forma manual
+// Si trabajamos en macos con una arquitectura arm y queremos instalar los paquetes con arquitectura compatible, aplicar el siguiente comando.
+npm install --production --arch=x64 --platform=linux
+
+// Para crear el layer debe contar con la estructura: nodejs/node_modules
+mkdir nodejs
+
+// Mover la carpeta node_modules a nodejs
+mv node_modules nodejs
+
+// Crear el zip de la carpeta nodejs
+zip -r nodejs.zip nodejs
+
+// Subir layer con aws-cli lambda
+aws lambda publish-layer-version --layer-name my-first-layer --zip-file fileb://nodejs.zip --compatible-runtimes nodejs18.x

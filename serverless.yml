@@ -33,6 +33,8 @@ functions:
             type: token
   finderToken:
     handler: src/functions/tokens/finder-token.handler
+    layers:
+      - { Ref: BaseLambdaLayer }
     events:
       - http:
           method: GET
@@ -54,6 +56,14 @@ package:
 plugins:
   - serverless-esbuild
   - serverless-offline
+
+layers:
+  base:
+    name: "layer-dependencies"
+    compatibleRuntimes:
+      - "nodejs18.x"
+    package:
+      artifact: nodejs.zip
 
 custom:
   serverless-offline:
