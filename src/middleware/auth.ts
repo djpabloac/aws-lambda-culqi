@@ -14,7 +14,7 @@ export const handler = async (event: APIGatewayTokenAuthorizerEvent): Promise<AP
 
     const [, token] = authorization.split(' ')
 
-    const validPermission = (): string => {
+    const validPermission = (): EffectType => {
         if (!auth.tokenBearer) return EffectType.DENY
 
         return token === auth.tokenBearer ? EffectType.ALLOW : EffectType.DENY
