@@ -1,11 +1,9 @@
 service: aws-lambda-culqi
-frameworkVersion: "3"
-
-useDotenv: true
+frameworkVersion: "4"
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs22.x
   environment:
     TOKEN_BEARER: ${env:TOKEN_BEARER}
     POSTGRES_HOST: ${env:POSTGRES_HOST}
@@ -52,12 +50,13 @@ package:
     - package-lock.json
 
 plugins:
-  - serverless-esbuild
   - serverless-offline
 
 custom:
   serverless-offline:
     httpPort: 9000
+
+build:
   esbuild:
     bundle: true
     minify: true
